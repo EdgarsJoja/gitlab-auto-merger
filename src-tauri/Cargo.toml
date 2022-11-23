@@ -1,8 +1,8 @@
 [package]
 name = "gitlab-auto-merger"
-version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "0.1.0"
+description = "App to easily create and merge multiple Gitlab MRs at once"
+authors = ["Edgars Joja"]
 license = ""
 repository = ""
 edition = "2021"
@@ -16,7 +16,7 @@ tauri-build = {version = "1.2", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = {version = "1.2", features = [] }
+tauri = {version = "1.2", features = ["api-all"] }
 
 [features]
 # by default Tauri runs in production mode
