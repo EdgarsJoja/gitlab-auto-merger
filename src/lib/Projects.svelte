@@ -25,9 +25,20 @@
 <main>
     {#if !selectedProject}
         <div class="list-view">
+            <details class="disclaimer">
+                <summary>Why all the projects are not visible?</summary>
+                Currently only "starred" projects are shown due to pagination limits.
+                Gitlab allows maximum 100 items per page. This means, that if your organisation has more than that,
+                then all projects would not be shown, unless some pagination is implemented in the app.
+                This is in the pipeline ;)
+            </details>
             <input type="text" placeholder="search..." bind:value={search}/>
             {#if !projects.length}
-                <p class="no-projects-message">No projects found :(</p>
+                <ul>
+                    {#each Array.from({ length: 5 }) as item}
+                        <li class="placeholder"></li>
+                    {/each}
+                </ul>
             {/if}
             <ul>
                 {#each filteredProjects as project}
@@ -47,6 +58,10 @@
 </main>
 
 <style>
+    .disclaimer {
+        margin-bottom: 1em;
+    }
+
     ul {
         display: flex;
         flex-direction: column;
@@ -75,5 +90,15 @@
 
     .namespace {
         opacity: .5;
+    }
+
+    .placeholder {
+        background: #0f0f0f98;
+        border-radius: 10px;
+        min-height: 2em;
+    }
+
+    .placeholder:hover {
+        border-color: transparent;
     }
 </style>

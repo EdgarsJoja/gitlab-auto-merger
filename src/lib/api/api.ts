@@ -3,7 +3,13 @@ import { get } from 'svelte/store';
 import type { GitlabProject } from './objects.interface';
 
 const getProjects = async (): Promise<GitlabProject[]> => {
-    return await callApi<GitlabProject[]>('projects');
+    const searchParams = new URLSearchParams({
+        order_by: 'updated_at',
+        per_page: '100',
+        starred: 'true'
+    });
+
+    return await callApi<GitlabProject[]>(`projects?${searchParams}`);
 };
 
 // @todo: Add typed response.

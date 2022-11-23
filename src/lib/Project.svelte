@@ -10,6 +10,10 @@
     ];
 
     const createMergeRequests = () => {
+        if (!confirm('Are you sure?')) {
+            return;
+        }
+
         selectedOptions.forEach(option => {
             const branches = option.split('~');
             const sourceBranch = branches[0];
