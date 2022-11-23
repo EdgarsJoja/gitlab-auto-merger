@@ -9,18 +9,38 @@
         'testing~development',
     ];
 
+    let timeout;
+    let interval;
+    let cancelCountdown = 0;
+
     const createMergeRequests = () => {
-        if (!confirm('Are you sure?')) {
-            return;
-        }
+        cancelCountdown = 5;
 
-        selectedOptions.forEach(option => {
-            const branches = option.split('~');
-            const sourceBranch = branches[0];
-            const targetBranch = branches[1];
+        interval = setInterval(() => {
+            cancelCountdown--;
 
-            createMergeRequest(project.id, sourceBranch, targetBranch);
-        });
+            if (cancelCountdown <= 0) {
+                cancelCountdown = 0;
+                clearInterval(interval);
+            }
+        }, 1000);
+
+        timeout = setTimeout(() => {
+            cancelCountdown = 0;
+
+            selectedOptions.forEach(option => {
+                const branches = option.split('~');
+                const sourceBranch = branches[0];
+                const targetBranch = branches[1];
+
+                createMergeRequest(project.id, sourceBranch, targetBranch);
+            });
+        }, 5000);
+    }
+
+    const cancel = () => {
+        cancelCountdown = 0;
+        clearTimeout(timeout);
     }
 </script>
 
@@ -45,7 +65,11 @@
         </label>
     </div>
 
-    <button on:click={ createMergeRequests }>Create MRs</button>
+    {#if !cancelCountdown}
+        <button on:click={ createMergeRequests }>Create MRs</button>
+    {:else}
+        <button class="cancel" on:click={ cancel }>Cancel ({cancelCountdown})</button>
+    {/if}
 </main>
 
 <style>
@@ -58,5 +82,9 @@
         flex-direction: column;
         gap: .5em;
         margin-bottom: 1em;
+    }
+
+    .cancel {
+        background: #E14D2A;
     }
 </style>

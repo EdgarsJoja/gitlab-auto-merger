@@ -29,7 +29,7 @@ const createMergeRequest = async (projectId: number, sourceBranch: string, targe
 const callApi = async <Type>(endpoint: string, options: any = {}): Promise<Type> => {
     const { host, accessToken } = get(settings);
 
-    const formattedHost = host.endsWith('/') ? host.slice(0, -1) : host;
+    const formattedHost = host?.endsWith('/') ? host?.slice(0, -1) : host;
     const url = `${formattedHost}/api/v4/${endpoint}`;
 
     const response = await fetch(url, {
