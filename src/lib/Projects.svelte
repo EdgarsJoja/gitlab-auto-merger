@@ -35,7 +35,7 @@
             <input type="text" placeholder="search..." bind:value={search}/>
             {#if !projects.length}
                 <ul>
-                    {#each Array.from({ length: 5 }) as item}
+                    {#each Array.from({ length: 3 }) as item}
                         <li class="placeholder"></li>
                     {/each}
                 </ul>
