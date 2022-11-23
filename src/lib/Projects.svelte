@@ -1,11 +1,13 @@
 <script lang="ts">
     import { getProjects } from './api/api.ts';
     import { onMount } from 'svelte';
-    import type { Project } from './api/objects.interface.ts';
+    import type { GitlabProject } from './api/objects.interface.ts';
+    import Project from './Project.svelte';
 
-    let projects: Project[] = [];
+    let projects: GitlabProject[] = [];
     let search: string = '';
-    let filteredProjects: Project[];
+    let filteredProjects: GitlabProject[];
+    let selectedProject: GitlabProject;
 
     $: {
         filteredProjects = projects.filter(({ name, name_with_namespace }) => {
@@ -21,15 +23,27 @@
 </script>
 
 <main>
-    <input type="text" placeholder="search..." bind:value={search}/>
-    <ul>
-        {#each filteredProjects as project}
-            <li>
-                <p class="name">{project.name}</p>
-                <span class="namespace">{project.name_with_namespace}</span>
-            </li>
-        {/each}
-    </ul>
+    {#if !selectedProject}
+        <div class="list-view">
+            <input type="text" placeholder="search..." bind:value={search}/>
+            {#if !projects.length}
+                <p class="no-projects-message">No projects found :(</p>
+            {/if}
+            <ul>
+                {#each filteredProjects as project}
+                    <li on:click={ () => selectedProject = project }>
+                        <p class="name">{project.name}</p>
+                        <span class="namespace">{project.name_with_namespace}</span>
+                    </li>
+                {/each}
+            </ul>
+        </div>
+    {:else}
+        <div class="single-view">
+            <button on:click={ () => selectedProject = null }>&lt; Back</button>
+            <Project project={selectedProject}/>
+        </div>
+    {/if}
 </main>
 
 <style>
