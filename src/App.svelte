@@ -1,39 +1,41 @@
 <script lang="ts">
-  import Greet from './lib/Greet.svelte'
+    import Settings from './lib/Settings.svelte';
+    import Projects from './lib/Projects.svelte';
+
+    const contentMap = {
+        settings: Settings,
+        projects: Projects
+    };
+
+    let displayContent = 'projects';
 </script>
 
+<nav class="navigation">
+    <button on:click={ () => displayContent = 'projects' }>Projects</button>
+    <button on:click={ () => displayContent = 'settings' }>Settings</button>
+</nav>
 <main class="container">
-  <h1>Welcome to Tauri!</h1>
-
-  <div class="row">
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo vite" alt="Vite Logo" />
-    </a>
-    <a href="https://tauri.app" target="_blank">
-      <img src="/tauri.svg" class="logo tauri" alt="Tauri Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank">
-      <img src="/svelte.svg" class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-
-  <p>
-    Click on the Tauri, Vite, and Svelte logos to learn more.
-  </p>
-
-  <div class="row">
-    <Greet />
-  </div>
-
-
+    <article class="content">
+        <svelte:component this={contentMap[displayContent]}/>
+    </article>
 </main>
 
 <style>
-  .logo.vite:hover {
-    filter: drop-shadow(0 0 2em #747bff);
-  }
+    .navigation {
+        display: flex;
+        margin: 1em auto;
+        max-width: min-content;
+        gap: 1em;
+    }
 
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00);
-  }
+    .container {
+        display: flex;
+        justify-content: center;
+        padding: 2em;
+    }
+
+    .content {
+        max-width: 30em;
+        width: 100%;
+    }
 </style>
