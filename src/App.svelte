@@ -11,8 +11,12 @@
 </script>
 
 <nav class="navigation">
-    <button on:click={ () => displayContent = 'projects' }>Projects</button>
-    <button on:click={ () => displayContent = 'settings' }>Settings</button>
+    <button class:active={ displayContent === 'projects' } on:click={ () => displayContent = 'projects' }>
+        Projects
+    </button>
+    <button class:active={ displayContent === 'settings' } on:click={ () => displayContent = 'settings' }>
+        Settings
+    </button>
 </nav>
 <main class="container">
     <article class="content">
@@ -26,6 +30,10 @@
         margin: 1em auto;
         max-width: min-content;
         gap: 1em;
+    }
+
+    button.active {
+        color: orange;
     }
 
     .container {

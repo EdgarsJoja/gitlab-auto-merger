@@ -9,6 +9,14 @@
         'testing~development',
     ];
 
+    let mergeOptions = [
+        'production~uat',
+        'production~testing',
+        'production~development',
+        'uat~testing',
+        'testing~development',
+    ];
+
     let timeout;
     let interval;
     let cancelCountdown = 0;
@@ -42,6 +50,12 @@
         cancelCountdown = 0;
         clearTimeout(timeout);
     }
+
+    const getMergeOptionLabel = (option) => {
+        const [source, target] = option.split('~');
+
+        return `${source} -> ${target}`;
+    }
 </script>
 
 <main class="project">
@@ -49,20 +63,12 @@
     <h4 class="namespace">{project.name_with_namespace}</h4>
 
     <div class="merge-options">
-        <label>
-            <input type="checkbox" value="production~uat" bind:group={selectedOptions}/>
-            production -> uat
-        </label>
-
-        <label>
-            <input type="checkbox" value="uat~testing" bind:group={selectedOptions}/>
-            uat -> testing
-        </label>
-
-        <label>
-            <input type="checkbox" value="testing~development" bind:group={selectedOptions}/>
-            testing -> development
-        </label>
+        {#each mergeOptions as option}
+            <label class="form-control">
+                <input type="checkbox" value={ option } bind:group={selectedOptions}/>
+                { getMergeOptionLabel(option) }
+            </label>
+        {/each}
     </div>
 
     {#if !cancelCountdown}
@@ -75,16 +81,17 @@
 <style>
     .namespace {
         opacity: .5;
+        font-size: .75em;
     }
 
     .merge-options {
         display: flex;
         flex-direction: column;
-        gap: .5em;
-        margin-bottom: 1em;
+        gap: 1em;
+        margin-bottom: 2em;
     }
 
     .cancel {
-        background: #E14D2A;
+        background: indianred;
     }
 </style>

@@ -66,7 +66,7 @@
         display: flex;
         flex-direction: column;
         gap: 1em;
-        padding: 0;
+        padding: 0 1em 0 0;
     }
 
     li {
@@ -81,7 +81,7 @@
     }
 
     li:hover {
-        border-color: #396cd8;
+        border-color: orange;
     }
 
     .name {
@@ -90,6 +90,7 @@
 
     .namespace {
         opacity: .5;
+        font-size: .75em;
     }
 
     .placeholder {
