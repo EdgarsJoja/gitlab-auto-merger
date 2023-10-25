@@ -11,3 +11,14 @@ Go to `settings` section and configure:
 Go to `projects` section and the projects should be listed.
 
 Click on the project, choose which MRs to create and confirm.
+
+## Screenshots
+
+List of repositories
+![list view of repositories](./screenshots/list.png)
+
+Merge request creation
+![view for merge request creation](./screenshots/mrs.png)
+
+Settings
+![settings view](./screenshots/settings.png)
