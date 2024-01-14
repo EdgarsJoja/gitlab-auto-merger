@@ -1,24 +1,25 @@
 <script lang="ts">
-    import { getProjects } from './api/api.ts';
+    import { getProjects } from './api/api';
     import { onMount } from 'svelte';
-    import type { GitlabProject } from './api/objects.interface.ts';
+    import type { GitlabProject } from './api/objects.interface';
     import Project from './Project.svelte';
 
-    let projects: GitlabProject[] = [];
-    let search: string = '';
-    let filteredProjects: GitlabProject[];
-    let selectedProject: GitlabProject;
+    let searchTerm: string = '';
+    let allProjects: GitlabProject[] = [];
+    let filteredProjects: GitlabProject[] = [];
+    let selectedProject: GitlabProject | null = null;
 
     $: {
-        filteredProjects = projects.filter(({ name, name_with_namespace }) => {
-            const keyword = search.toLowerCase();
+        filteredProjects = allProjects.filter(({ name, name_with_namespace }) => {
+            const keyword = searchTerm.toLowerCase();
 
             return name.toLowerCase().includes(keyword) || name_with_namespace.toLowerCase().includes(keyword);
         });
     }
 
     onMount(async () => {
-        projects = await getProjects();
+        const projectsResponse = await getProjects();
+        allProjects = Array.isArray(projectsResponse) ? projectsResponse : [];
     });
 </script>
 
@@ -32,8 +33,8 @@
                 then all projects would not be shown, unless some pagination is implemented in the app.
                 This is in the pipeline ;)
             </details>
-            <input type="text" placeholder="search..." bind:value={search}/>
-            {#if !projects.length}
+            <input type="text" placeholder="search..." bind:value={searchTerm}/>
+            {#if !allProjects.length}
                 <ul>
                     {#each Array.from({ length: 3 }) as item}
                         <li class="placeholder"></li>
