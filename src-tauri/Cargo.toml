@@ -1,6 +1,6 @@
 [package]
 name = "gitlab-auto-merger"
-version = "0.2.0"
+version = "0.2.1"
 description = "App to easily create and merge multiple Gitlab MRs at once"
 authors = ["Edgars Joja"]
 license = ""
